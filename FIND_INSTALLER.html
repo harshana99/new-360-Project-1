@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Find Your Installer - 360WinEstate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background: linear-gradient(135deg, #0F1A3C 0%, #1a2847 100%);
+            color: white;
+        }
+
+        .card {
+            background: white;
+            color: #333;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #0F1A3C;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .gold {
+            color: #E4B400;
+        }
+
+        .step {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid #E4B400;
+        }
+
+        .step h2 {
+            color: #0F1A3C;
+            margin-top: 0;
+        }
+
+        .file-box {
+            background: #2d2d2d;
+            color: #E4B400;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #E4B400;
+            color: #0F1A3C;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #d4a500;
+            transform: translateY(-2px);
+        }
+
+        .btn-large {
+            font-size: 18px;
+            padding: 20px 40px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #E4B400;
+            margin: 20px 0;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>🔍 Find Your <span class="gold">Installer</span></h1>
+
+        <div class="highlight">
+            <h2 style="margin-top: 0;">📍 Your Installer Location:</h2>
+            <div class="file-box">c:\xampp1\htdocs\new 360 Project\install.bat</div>
+        </div>
+
+        <div class="step">
+            <h2>Method 1: Open Folder (Easiest)</h2>
+            <p><strong>Click this button to open your project folder:</strong></p>
+            <button onclick="openFolder()" class="btn btn-large">📂 Open Project Folder</button>
+            <p style="margin-top: 15px;">Then look for: <strong>install.bat</strong> and double-click it!</p>
+        </div>
+
+        <div class="step">
+            <h2>Method 2: Manual Navigation</h2>
+            <ol>
+                <li>Open <strong>File Explorer</strong> (Windows + E)</li>
+                <li>Navigate to: <code>C:\xampp1\htdocs\</code></li>
+                <li>Open folder: <code>new 360 Project</code></li>
+                <li>Look for file: <strong>install.bat</strong></li>
+                <li>Double-click it to run!</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h2>Method 3: Search</h2>
+            <ol>
+                <li>Press <strong>Windows Key</strong></li>
+                <li>Type: <code>install.bat</code></li>
+                <li>Look for the file in search results</li>
+                <li>Click to run it!</li>
+            </ol>
+        </div>
+
+        <div class="highlight">
+            <h2 style="margin-top: 0;">📋 Files in Your Project Folder:</h2>
+            <ul style="font-size: 16px;">
+                <li>✅ <strong>install.bat</strong> - Main installer (double-click this!)</li>
+                <li>✅ <strong>INSTALL.html</strong> - Visual installation guide</li>
+                <li>✅ <strong>start.bat</strong> - Quick start script</li>
+                <li>✅ <strong>composer.json</strong> - Laravel configuration</li>
+                <li>✅ All your authentication files</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h2>🎯 What to Do After Finding install.bat:</h2>
+            <ol style="font-size: 16px;">
+                <li><strong>Double-click</strong> install.bat</li>
+                <li>If you see "Composer not found":
+                    <ul>
+                        <li>Download Composer: <a href="https://getcomposer.org/Composer-Setup.exe"
+                                target="_blank">Click here</a></li>
+                        <li>Install it (select C:\xampp\php\php.exe)</li>
+                        <li>Restart computer</li>
+                        <li>Run install.bat again</li>
+                    </ul>
+                </li>
+                <li>Wait for installation (5-10 minutes)</li>
+                <li>Browser opens automatically!</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <h2>Quick Actions:</h2>
+            <button onclick="openFolder()" class="btn btn-large">📂 Open Folder</button>
+            <a href="INSTALL.html" class="btn btn-large">📖 View Guide</a>
+            <a href="https://getcomposer.org/Composer-Setup.exe" class="btn btn-large" target="_blank">📥 Get
+                Composer</a>
+        </div>
+
+        <div style="background: #d1ecf1; color: #0c5460; padding: 20px; border-radius: 8px; margin-top: 30px;">
+            <strong>💡 Tip:</strong> If you can't find install.bat, it means you're looking in the wrong folder.
+            Make sure you're in: <code>c:\xampp1\htdocs\new 360 Project</code>
+        </div>
+    </div>
+
+    <script>
+        function openFolder() {
+            // Try to open the folder
+            window.location.href = 'file:///c:/xampp1/htdocs/new%20360%20Project';
+            alert('Opening project folder...\n\nLook for "install.bat" and double-click it!');
+        }
+    </script>
+</body>
+
+</html>

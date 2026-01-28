@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>🎉 Success! - 360WinEstate</title>
+    <meta http-equiv="refresh" content="2; url=http://localhost:8000">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0F1A3C 0%, #1a2847 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .success-box {
+            background: white;
+            color: #333;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #0F1A3C;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .gold {
+            color: #E4B400;
+        }
+
+        .checkmark {
+            font-size: 5rem;
+            color: #28a745;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            background: #E4B400;
+            color: #0F1A3C;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 20px 10px;
+        }
+
+        .info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="success-box">
+        <div class="checkmark">✅</div>
+        <h1>Success!</h1>
+        <p style="font-size: 1.3rem; margin-bottom: 30px;">
+            Your <span class="gold">360WinEstate</span> application is running!
+        </p>
+
+        <div class="info">
+            <p><strong>🌐 Server URL:</strong></p>
+            <p style="font-size: 1.2rem; color: #0F1A3C; font-family: monospace;">
+                http://localhost:8000
+            </p>
+        </div>
+
+        <p style="font-size: 1.1rem; margin: 20px 0;">
+            Redirecting in 2 seconds...
+        </p>
+
+        <a href="http://localhost:8000" class="btn">Open Application Now</a>
+        <a href="http://localhost:8000/login" class="btn">Go to Login</a>
+
+        <div class="info" style="margin-top: 30px;">
+            <p><strong>📧 Test Account:</strong></p>
+            <p>Email: <code>owner@360winestate.com</code></p>
+            <p>Password: <code>Owner@123</code></p>
+        </div>
+    </div>
+</body>
+
+</html>

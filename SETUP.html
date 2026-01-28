@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360WinEstate - Setup Instructions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0F1A3C 0%, #1a2847 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #0F1A3C;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .gold {
+            color: #E4B400;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #E4B400;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        
+        .step h3 {
+            color: #0F1A3C;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-number {
+            background: #E4B400;
+            color: #0F1A3C;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            color: #0c5460;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid #856404;
+            color: #856404;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left: 4px solid #155724;
+            color: #155724;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #E4B400;
+            color: #0F1A3C;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #d4a500;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(228, 180, 0, 0.3);
+        }
+        
+        .test-accounts {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .test-accounts table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .test-accounts th,
+        .test-accounts td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .test-accounts th {
+            background: #0F1A3C;
+            color: white;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>360<span class="gold">Win</span>Estate</h1>
+            <p>Module 1: Authentication System - Setup Guide</p>
+        </div>
+        
+        <div class="content">
+            <div class="alert alert-info">
+                <strong>📋 Current Status:</strong> Laravel files are ready, but you need to complete the setup to run the application.
+            </div>
+            
+            <h2 style="color: #0F1A3C; margin-bottom: 20px;">🚀 Quick Setup Guide</h2>
+            
+            <!-- Step 1 -->
+            <div class="step">
+                <h3>
+                    <span class="step-number">1</span>
+                    Install Composer (if not installed)
+                </h3>
+                <p>Composer is required to install Laravel dependencies.</p>
+                <ul>
+                    <li>Download from: <a href="https://getcomposer.org/download/" target="_blank">https://getcomposer.org/download/</a></li>
+                    <li>Run <strong>Composer-Setup.exe</strong></li>
+                    <li>Select your XAMPP PHP: <code>C:\xampp\php\php.exe</code></li>
+                    <li>Complete the installation</li>
+                </ul>
+                <p style="margin-top: 10px;">Verify installation:</p>
+                <div class="code-block">composer --version</div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="step">
+                <h3>
+                    <span class="step-number">2</span>
+                    Install Laravel Framework
+                </h3>
+                <p>Open PowerShell or Command Prompt in this folder and run:</p>
+                <div class="code-block">cd "c:\xampp1\htdocs\new 360 Project"<br>composer create-project laravel/laravel temp "11.*"<br>Move-Item -Path temp\* -Destination . -Force<br>Remove-Item temp -Recurse -Force</div>
+                <p style="margin-top: 10px;"><strong>OR</strong> simply double-click: <code>start.bat</code> in this folder</p>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="step">
+                <h3>
+                    <span class="step-number">3</span>
+                    Configure Environment
+                </h3>
+                <p>Copy and configure the environment file:</p>
+                <div class="code-block">Copy-Item .env.example .env<br>php artisan key:generate</div>
+                <p style="margin-top: 10px;">Edit <code>.env</code> file and set:</p>
+                <div class="code-block">DB_DATABASE=360winestate<br>DB_USERNAME=root<br>DB_PASSWORD=<br><br>MAIL_MAILER=log</div>
+            </div>
+            
+            <!-- Step 4 -->
+            <div class="step">
+                <h3>
+                    <span class="step-number">4</span>
+                    Create Database
+                </h3>
+                <ul>
+                    <li>Start XAMPP Control Panel</li>
+                    <li>Start <strong>Apache</strong> and <strong>MySQL</strong></li>
+                    <li>Open: <a href="http://localhost/phpmyadmin" target="_blank">http://localhost/phpmyadmin</a></li>
+                    <li>Click "New" → Database name: <code>360winestate</code></li>
+                    <li>Click "Create"</li>
+                </ul>
+            </div>
+            
+            <!-- Step 5 -->
+            <div class="step">
+                <h3>
+                    <span class="step-number">5</span>
+                    Run Migrations & Seed Data
+                </h3>
+                <div class="code-block">php artisan migrate<br>php artisan db:seed --class=UserSeeder</div>
+            </div>
+            
+            <!-- Step 6 -->
+            <div class="step">
+                <h3>
+                    <span class="step-number">6</span>
+                    Start the Server
+                </h3>
+                <div class="code-block">php artisan serve</div>
+                <p style="margin-top: 10px;">Then open in browser:</p>
+                <a href="http://localhost:8000" target="_blank" class="btn">Open Application</a>
+                <a href="http://localhost:8000/register" target="_blank" class="btn">Register Page</a>
+                <a href="http://localhost:8000/login" target="_blank" class="btn">Login Page</a>
+            </div>
+            
+            <!-- Test Accounts -->
+            <div class="test-accounts">
+                <h3 style="color: #0F1A3C; margin-bottom: 15px;">🧪 Test Accounts (After Seeding)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>owner@360winestate.com</td>
+                            <td>Owner@123</td>
+                            <td>Owner</td>
+                            <td><span class="badge badge-success">Approved</span></td>
+                        </tr>
+                        <tr>
+                            <td>investor@360winestate.com</td>
+                            <td>Investor@123</td>
+                            <td>Investor</td>
+                            <td><span class="badge badge-success">Approved</span></td>
+                        </tr>
+                        <tr>
+                            <td>marketer@360winestate.com</td>
+                            <td>Marketer@123</td>
+                            <td>Marketer</td>
+                            <td><span class="badge badge-success">Approved</span></td>
+                        </tr>
+                        <tr>
+                            <td>admin@360winestate.com</td>
+                            <td>Admin@123</td>
+                            <td>Owner</td>
+                            <td><span class="badge badge-success">Approved</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="alert alert-success">
+                <strong>✅ Quick Links:</strong><br>
+                <a href="http://localhost/phpmyadmin" target="_blank">phpMyAdmin</a> | 
+                <a href="XAMPP_SETUP.md">Detailed Setup Guide</a> | 
+                <a href="QUICKSTART.md">Quick Start Guide</a> | 
+                <a href="INDEX.md">Documentation Index</a>
+            </div>
+            
+            <!-- Troubleshooting -->
+            <div class="alert alert-warning">
+                <strong>⚠️ Troubleshooting:</strong><br>
+                • If "composer not found" → Install Composer first<br>
+                • If "php not found" → Use: <code>C:\xampp\php\php.exe artisan serve</code><br>
+                • If database error → Check XAMPP MySQL is running<br>
+                • Check <strong>XAMPP_SETUP.md</strong> for detailed troubleshooting
+            </div>
+        </div>
+    </div>
+</body>
+</html>
