@@ -134,7 +134,7 @@ class DashboardController extends Controller
     public function users()
     {
         $admin = Admin::where('user_id', auth()->id())->firstOrFail();
-        $users = User::with('roles')->paginate(20);
+        $users = User::with('admin')->paginate(20);
 
         return view('admin.users.index', compact('admin', 'users'));
     }
@@ -170,14 +170,9 @@ class DashboardController extends Controller
             abort(403, 'Only Super Admin can create admins');
         }
 
-        // Get users who are not already admins
-        $availableUsers = User::whereDoesntHave('admin')
-            ->where('status', 'approved')
-            ->get();
-
         $roles = Admin::getCreatableRoles();
 
-        return view('admin.admins.create', compact('admin', 'availableUsers', 'roles'));
+        return view('admin.admins.create', compact('admin', 'roles'));
     }
 
     /**
@@ -196,25 +191,39 @@ class DashboardController extends Controller
 
         // Validate request
         $validated = $request->validate([
-            'user_id' => ['required', 'exists:users,id', 'unique:admins,user_id'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'max:20'],
+            'password' => [
+                'required', 
+                'string', 
+                'min:8',             // Minimum 8 characters
+                'regex:/[a-z]/',      // Must contain at least one lowercase letter
+                'regex:/[A-Z]/',      // Must contain at least one uppercase letter
+                'regex:/[0-9]/',      // Must contain at least one digit
+                'regex:/[@$!%*#?&]/', // Must contain a special character
+            ],
             'admin_role' => ['required', 'in:compliance_admin,finance_admin,content_admin'],
-        ], [
-            'user_id.required' => 'Please select a user',
-            'user_id.exists' => 'Selected user does not exist',
-            'user_id.unique' => 'This user is already an admin',
-            'admin_role.required' => 'Please select an admin role',
-            'admin_role.in' => 'Invalid admin role selected',
+        ]);
+
+        // Create user record
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'password' => Hash::make($validated['password']),
+            'membership_type' => 'owner', // Default role for admins
+            'status' => User::STATUS_APPROVED, // Auto-approve admin accounts
+            'email_verified_at' => now(), // Auto-verify admin emails
         ]);
 
         // Create admin record
         $newAdmin = Admin::create([
-            'user_id' => $validated['user_id'],
+            'user_id' => $user->id,
             'admin_role' => $validated['admin_role'],
             'status' => Admin::STATUS_ACTIVE,
             'created_by' => auth()->id(),
         ]);
-
-        $user = User::find($validated['user_id']);
 
         // Log the action
         Log::info('Super Admin created new admin', [

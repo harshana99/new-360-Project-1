@@ -141,8 +141,8 @@
         }
 
         .card-header {
-            background: var(--navy);
-            color: var(--white);
+            background: var(--gold);
+            color: var(--navy);
             padding: 1.5rem;
             border: none;
         }

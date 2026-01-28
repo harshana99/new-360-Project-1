@@ -141,13 +141,13 @@ class Admin extends Model
 
     /**
      * Check if this admin can review KYC submissions
-     * Only Compliance Admin can review KYC
+     * Super Admin and Compliance Admin can review KYC
      *
      * @return bool
      */
     public function canReviewKYC(): bool
     {
-        return $this->isComplianceAdmin();
+        return $this->isSuperAdmin() || $this->isComplianceAdmin();
     }
 
     /**
@@ -158,7 +158,7 @@ class Admin extends Model
      */
     public function canManagePayments(): bool
     {
-        return $this->isFinanceAdmin();
+        return $this->isSuperAdmin() || $this->isFinanceAdmin();
     }
 
     /**
@@ -169,7 +169,7 @@ class Admin extends Model
      */
     public function canManageContent(): bool
     {
-        return $this->isContentAdmin();
+        return $this->isSuperAdmin() || $this->isContentAdmin();
     }
 
     /**

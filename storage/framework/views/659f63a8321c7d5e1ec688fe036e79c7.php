@@ -280,24 +280,24 @@
             360<span class="gold">Win</span>Estate
         </div>
         <hr style="border-color: rgba(255,255,255,0.2);">
-        <a href="{{ route('admin.dashboard') }}" class="active">
+        <a href="<?php echo e(route('admin.dashboard')); ?>" class="active">
             <i class="bi bi-speedometer2 me-2"></i> Dashboard
         </a>
-        <a href="{{ route('admin.admins') }}">
+        <a href="<?php echo e(route('admin.admins')); ?>">
             <i class="bi bi-people me-2"></i> Manage Admins
         </a>
-        <a href="{{ route('admin.users') }}">
+        <a href="<?php echo e(route('admin.users')); ?>">
             <i class="bi bi-person me-2"></i> Users
         </a>
-        <a href="{{ route('admin.kyc') }}">
+        <a href="<?php echo e(route('admin.kyc')); ?>">
             <i class="bi bi-file-check me-2"></i> KYC Management
         </a>
-        <a href="{{ route('admin.analytics') }}">
+        <a href="<?php echo e(route('admin.analytics')); ?>">
             <i class="bi bi-graph-up me-2"></i> Analytics
         </a>
         <hr style="border-color: rgba(255,255,255,0.2);">
-        <form action="{{ route('admin.logout') }}" method="POST">
-            @csrf
+        <form action="<?php echo e(route('admin.logout')); ?>" method="POST">
+            <?php echo csrf_field(); ?>
             <button type="submit" class="btn btn-link text-white text-decoration-none w-100 text-start" style="padding: 12px 20px;">
                 <i class="bi bi-box-arrow-right me-2"></i> Logout
             </button>
@@ -309,37 +309,38 @@
         <!-- Header -->
         <div class="header">
             <h2 class="mb-0">Super Admin Dashboard</h2>
-            <p class="mb-0">Welcome, <strong>{{ $user->name }}</strong>! <span class="badge-super">Super Admin</span></p>
+            <p class="mb-0">Welcome, <strong><?php echo e($user->name); ?></strong>! <span class="badge-super">Super Admin</span></p>
         </div>
 
         <!-- Success Messages -->
-        @if(session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
+                <i class="bi bi-check-circle-fill me-2"></i><?php echo e(session('success')); ?>
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-        @endif
+        <?php endif; ?>
 
         <!-- Stats Cards -->
                     <div class="row">
                         <div class="col-md-4">
                             <div class="stat-card">
                                 <i class="bi bi-people icon"></i>
-                                <h3>{{ $totalUsers }}</h3>
+                                <h3><?php echo e($totalUsers); ?></h3>
                                 <p>Total Users</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="stat-card">
                                 <i class="bi bi-check-circle icon"></i>
-                                <h3>{{ $approvedUsers }}</h3>
+                                <h3><?php echo e($approvedUsers); ?></h3>
                                 <p>Approved Users</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="stat-card">
                                 <i class="bi bi-shield-check icon"></i>
-                                <h3>{{ $activeAdmins }}</h3>
+                                <h3><?php echo e($activeAdmins); ?></h3>
                                 <p>Active Admins</p>
                             </div>
                         </div>
@@ -351,13 +352,13 @@
                             <h5 class="mb-0" style="font-weight: 600;">Quick Actions</h5>
                         </div>
                         <div class="card-body">
-                            <a href="{{ route('admin.create') }}" class="btn btn-gold me-2">
+                            <a href="<?php echo e(route('admin.create')); ?>" class="btn btn-gold me-2">
                                 <i class="bi bi-plus-circle me-2"></i>Create New Admin
                             </a>
-                            <a href="{{ route('admin.admins') }}" class="btn btn-outline-secondary me-2">
+                            <a href="<?php echo e(route('admin.admins')); ?>" class="btn btn-outline-secondary me-2">
                                 <i class="bi bi-people me-2"></i>Manage Admins
                             </a>
-                            <a href="{{ route('admin.users') }}" class="btn btn-outline-secondary">
+                            <a href="<?php echo e(route('admin.users')); ?>" class="btn btn-outline-secondary">
                                 <i class="bi bi-person me-2"></i>View All Users
                             </a>
                         </div>
@@ -374,7 +375,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-file-earmark-text text-warning me-3" style="font-size: 30px;"></i>
                                         <div>
-                                            <h4 class="mb-0">{{ $pendingKYC }}</h4>
+                                            <h4 class="mb-0"><?php echo e($pendingKYC); ?></h4>
                                             <small class="text-muted">Pending KYC</small>
                                         </div>
                                     </div>
@@ -384,7 +385,7 @@
                     </div>
 
                     <!-- Recent Admins -->
-                    @if($recentAdmins->count() > 0)
+                    <?php if($recentAdmins->count() > 0): ?>
                     <div class="card mt-4">
                         <div class="card-header" style="background: #E4B400; color: #0F1A3C;">
                             <h5 class="mb-0" style="font-weight: 600;">Recent Admins</h5>
@@ -401,20 +402,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($recentAdmins as $recentAdmin)
+                                        <?php $__currentLoopData = $recentAdmins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $recentAdmin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
-                                            <td>{{ $recentAdmin->user->name }}</td>
-                                            <td><span class="badge {{ $recentAdmin->getRoleBadgeClass() }}">{{ $recentAdmin->getRoleLabel() }}</span></td>
-                                            <td><span class="badge {{ $recentAdmin->getStatusBadgeClass() }}">{{ ucfirst($recentAdmin->status) }}</span></td>
-                                            <td>{{ $recentAdmin->created_at->diffForHumans() }}</td>
+                                            <td><?php echo e($recentAdmin->user->name); ?></td>
+                                            <td><span class="badge <?php echo e($recentAdmin->getRoleBadgeClass()); ?>"><?php echo e($recentAdmin->getRoleLabel()); ?></span></td>
+                                            <td><span class="badge <?php echo e($recentAdmin->getStatusBadgeClass()); ?>"><?php echo e(ucfirst($recentAdmin->status)); ?></span></td>
+                                            <td><?php echo e($recentAdmin->created_at->diffForHumans()); ?></td>
                                         </tr>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    @endif
+                    <?php endif; ?>
     </div>
 
     <!-- Bootstrap JS -->
@@ -460,3 +461,4 @@
     </script>
 </body>
 </html>
+<?php /**PATH C:\xampp1\htdocs\new 360 Project\resources\views/admin/dashboard/super_admin.blade.php ENDPATH**/ ?>

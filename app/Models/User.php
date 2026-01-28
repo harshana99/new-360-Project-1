@@ -254,6 +254,7 @@ class User extends Authenticatable implements MustVerifyEmail
             self::STATUS_UNDER_REVIEW => 'Under Review',
             self::STATUS_APPROVED => 'Approved',
             self::STATUS_REJECTED => 'Rejected',
+            'suspended' => 'Suspended',
             default => 'Unknown',
         };
     }
@@ -265,10 +266,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return match($this->status) {
             self::STATUS_APPROVED => 'bg-success',
-            self::STATUS_REJECTED => 'bg-danger',
-            self::STATUS_UNDER_REVIEW => 'bg-warning',
-            self::STATUS_KYC_SUBMITTED => 'bg-info',
+            self::STATUS_REJECTED, 'suspended' => 'bg-danger',
+            self::STATUS_UNDER_REVIEW, self::STATUS_KYC_SUBMITTED => 'bg-warning',
             self::STATUS_MEMBERSHIP_SELECTED => 'bg-primary',
+            self::STATUS_REGISTERED => 'bg-info',
             default => 'bg-secondary',
         };
     }
@@ -318,7 +319,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isAdmin(): bool
     {
-        return $this->is_admin === true;
+        return $this->admin()->exists();
     }
 
     /**
@@ -359,5 +360,128 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         
         return null;
+    }
+
+    /**
+     * MODULE 11: USER MANAGEMENT METHODS
+     */
+
+    /**
+     * Get user's activities
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    /**
+     * Get user's latest KYC submission
+     */
+    public function getKYCSubmission()
+    {
+        return $this->kycSubmissions()->latest()->first();
+    }
+
+    /**
+     * Check if user's KYC is approved
+     */
+    public function isKYCApproved(): bool
+    {
+        return $this->status === self::STATUS_APPROVED;
+    }
+
+    /**
+     * Check if user has submitted KYC
+     */
+    public function hasKYC(): bool
+    {
+        return $this->kycSubmissions()->exists();
+    }
+
+    /**
+     * Get all account activities for this user
+     */
+    public function getAccountActivities(int $limit = null)
+    {
+        $query = $this->activities()->with('admin')->latest();
+        
+        if ($limit) {
+            return $query->limit($limit)->get();
+        }
+        
+        return $query->paginate(20);
+    }
+
+    /**
+     * Suspend user account
+     */
+    public function suspend(string $reason = null, ?int $adminId = null): void
+    {
+        $this->update(['status' => 'suspended']);
+        
+        // Log activity
+        Activity::log(
+            $this->id,
+            Activity::TYPE_ACCOUNT_SUSPENDED,
+            $reason ?? 'Account suspended by admin',
+            $adminId,
+            ['reason' => $reason]
+        );
+    }
+
+    /**
+     * Activate user account
+     */
+    public function activate(?int $adminId = null): void
+    {
+        // Restore to appropriate status based on KYC
+        $status = $this->isKYCApproved() ? self::STATUS_APPROVED : self::STATUS_MEMBERSHIP_SELECTED;
+        
+        $this->update(['status' => $status]);
+        
+        // Log activity
+        Activity::log(
+            $this->id,
+            Activity::TYPE_ACCOUNT_ACTIVATED,
+            'Account activated by admin',
+            $adminId
+        );
+    }
+
+    /**
+     * Check if user can edit their profile
+     */
+    public function canEditProfile(): bool
+    {
+        return $this->status !== 'suspended';
+    }
+
+    /**
+     * Get last login timestamp
+     */
+    public function getLastLogin()
+    {
+        $lastLogin = $this->activities()
+            ->where('activity_type', Activity::TYPE_LOGIN)
+            ->latest()
+            ->first();
+        
+        return $lastLogin ? $lastLogin->created_at : null;
+    }
+
+    /**
+     * Check if account is suspended
+     */
+    public function isSuspended(): bool
+    {
+        return $this->status === 'suspended';
+    }
+
+    /**
+     * Log user activity
+     */
+    public function logActivity(string $type, string $description, ?array $metadata = null): Activity
+    {
+        return Activity::log($this->id, $type, $description, null, $metadata);
     }
 }

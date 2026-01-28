@@ -114,7 +114,13 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            // Check if email is verified
+            // Check if user is an admin - admins bypass email verification
+            if ($user->isAdmin()) {
+                return redirect()->route('admin.dashboard')
+                    ->with('success', 'Welcome back, ' . $user->name . '!');
+            }
+
+            // Check if email is verified (only for non-admin users)
             if (!$user->hasVerifiedEmail()) {
                 return redirect()->route('verification.notice')
                     ->with('warning', 'Please verify your email address to continue.');

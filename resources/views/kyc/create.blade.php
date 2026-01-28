@@ -8,14 +8,14 @@
         <div class="col-lg-8">
             <!-- Header -->
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-navy mb-3">Complete Your Verification</h2>
-                <p class="text-muted">Step 2 of 3: KYC Submission</p>
+                <h2 class="fw-bold text-white mb-3">Complete Your Verification</h2>
+                <p class="text-white-50">Step 2 of 3: KYC Submission</p>
                 
                 <!-- Progress Bar -->
                 <div class="progress" style="height: 8px;">
                     <div class="progress-bar bg-gold" role="progressbar" style="width: 66%;" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <small class="text-muted mt-2 d-block">Account ✓ | Membership ✓ | KYC ⏳ | Approval ⏳</small>
+                <small class="text-gold mt-2 d-block">Account ✓ | Membership ✓ | KYC ⏳ | Approval ⏳</small>
             </div>
 
             <!-- Membership Type Display -->
