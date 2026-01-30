@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\KycSubmission;
+use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -67,6 +68,7 @@ class DashboardController extends Controller
             'approvedUsers' => User::where('status', 'approved')->count(),
             'activeAdmins' => Admin::active()->count(),
             'pendingKYC' => KycSubmission::where('status', 'submitted')->count(),
+            'pendingProperties' => Property::where('status', 'pending')->count(),
             'recentAdmins' => Admin::with('user')->latest()->take(5)->get(),
             'recentActivities' => $this->getRecentActivities(),
         ];

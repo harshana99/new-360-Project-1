@@ -7,6 +7,12 @@ use App\Http\Controllers\KycController;
 use App\Http\Controllers\Admin\AdminKycController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OwnerDashboardController;
+use App\Http\Controllers\InvestorDashboardController;
+use App\Http\Controllers\MarketerDashboardController;
+use App\Http\Middleware\CheckUserRole;
+use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\Admin\PropertyController as AdminPropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -130,7 +136,78 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-// Default route
+    // --- MODULE 3: ROLE-BASED DASHBOARDS ---
+
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+        
+        // Admin Redirect
+        // Admin Redirect
+        if ($user->admin || in_array($user->role, ['admin', 'super_admin'])) {
+            return redirect()->route('admin.dashboard');
+        }
+        
+        // Role Redirect
+        return match ($user->membership_type) {
+            'owner' => redirect()->route('owner.dashboard'),
+            'investor' => redirect()->route('investor.dashboard'),
+            'marketer' => redirect()->route('marketer.dashboard'),
+            default => redirect()->route('membership.select'),
+        };
+    })->name('dashboard');
+
+    // Owner Routes
+    Route::middleware(CheckUserRole::class.':owner')->prefix('owner')->name('owner.')->group(function () {
+        Route::get('/dashboard', [OwnerDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/properties', [OwnerDashboardController::class, 'properties'])->name('properties');
+        Route::get('/earnings', [OwnerDashboardController::class, 'earnings'])->name('earnings');
+        Route::get('/documents', [OwnerDashboardController::class, 'documents'])->name('documents');
+        Route::get('/analytics', [OwnerDashboardController::class, 'analytics'])->name('analytics');
+    });
+
+    // Investor Routes
+    Route::middleware(CheckUserRole::class.':investor')->prefix('investor')->name('investor.')->group(function () {
+        Route::get('/dashboard', [InvestorDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/investments', [InvestorDashboardController::class, 'investments'])->name('investments');
+        Route::get('/portfolio', [InvestorDashboardController::class, 'portfolio'])->name('portfolio');
+        Route::get('/dividends', [InvestorDashboardController::class, 'dividends'])->name('dividends');
+        Route::get('/performance', [InvestorDashboardController::class, 'performance'])->name('performance');
+    });
+
+    // Marketer Routes
+    Route::middleware(CheckUserRole::class.':marketer')->prefix('marketer')->name('marketer.')->group(function () {
+        Route::get('/dashboard', [MarketerDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/team', [MarketerDashboardController::class, 'team'])->name('team');
+        Route::get('/commissions', [MarketerDashboardController::class, 'commissions'])->name('commissions');
+        Route::get('/leaderboard', [MarketerDashboardController::class, 'leaderboard'])->name('leaderboard');
+        Route::get('/targets', [MarketerDashboardController::class, 'targets'])->name('targets');
+    });
+
+    // --- MODULE 4: PROPERTY MANAGEMENT ---
+
+    // Public Properties
+    Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
+    Route::get('/properties/{id}', [PropertyController::class, 'show'])->name('properties.show');
+
+    // Owner Properties
+    Route::middleware(CheckUserRole::class.':owner')->prefix('owner')->name('owner.')->group(function () {
+        Route::get('/properties/list', [PropertyController::class, 'ownerList'])->name('properties');
+        Route::get('/properties/create', [PropertyController::class, 'ownerCreate'])->name('properties.create');
+        Route::post('/properties', [PropertyController::class, 'ownerStore'])->name('properties.store');
+        Route::get('/properties/{id}/edit', [PropertyController::class, 'ownerEdit'])->name('properties.edit');
+        Route::post('/properties/{id}', [PropertyController::class, 'ownerUpdate'])->name('properties.update');
+        Route::post('/properties/{id}/delete', [PropertyController::class, 'ownerDelete'])->name('properties.delete');
+    });
+
+    // Admin Properties (Nested in Admin Prefix)
+    Route::prefix('admin')->name('admin.')->group(function() {
+        Route::get('/properties', [AdminPropertyController::class, 'index'])->name('properties.index');
+        Route::get('/properties/{id}', [AdminPropertyController::class, 'show'])->name('properties.show');
+        Route::post('/properties/{id}/approve', [AdminPropertyController::class, 'approve'])->name('properties.approve');
+        Route::post('/properties/{id}/reject', [AdminPropertyController::class, 'reject'])->name('properties.reject');
+    });
+    
+
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('dashboard');

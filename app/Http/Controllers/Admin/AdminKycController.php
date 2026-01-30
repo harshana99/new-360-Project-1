@@ -85,7 +85,7 @@ class AdminKycController extends Controller
             
             // TODO: Send approval email notification
             
-            return redirect()->route('admin.kyc.index')
+            return redirect()->route('admin.kyc')
                 ->with('success', 'KYC approved successfully! User has been granted access.');
         }
 
@@ -112,7 +112,7 @@ class AdminKycController extends Controller
             
             // TODO: Send rejection email notification
             
-            return redirect()->route('admin.kyc.index')
+            return redirect()->route('admin.kyc')
                 ->with('success', 'KYC rejected. User has been notified.');
         }
 
@@ -139,7 +139,7 @@ class AdminKycController extends Controller
             
             // TODO: Send resubmission request email
             
-            return redirect()->route('admin.kyc.index')
+            return redirect()->route('admin.kyc')
                 ->with('success', 'Resubmission requested. User has been notified.');
         }
 

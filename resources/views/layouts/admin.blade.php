@@ -5,207 +5,301 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Dashboard') - 360WinEstate</title>
     
-    <!-- Bootstrap 5 CSS -->
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Fonts: Outfit (Premium Look) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; }
+        :root {
+            --bg-dark: #0B1221;
+            --bg-card: #151C2F;
+            --text-main: #FFFFFF;
+            --text-muted: #adb5bd;
+            --accent-gold: #F59E0B;
+            --accent-green: #10B981;
+            --sidebar-width: 260px;
+        }
+
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background: var(--bg-dark); 
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        .text-muted { color: var(--text-muted) !important; }
         
-        /* Sidebar */
+        /* GLOWING GLASS EFFECT */
+        body {
+            background: radial-gradient(circle at top right, #1a233a 0%, #0B1221 60%), #0B1221;
+        }
+
+        .glass-card, .stats-card, .card, .table-dark-custom {
+            background: rgba(21, 28, 47, 0.6) !important;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover, .stats-card:hover, .card:hover {
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            border-color: rgba(245, 158, 11, 0.3) !important;
+            transform: translateY(-3px);
+        }
+
+        /* Sidebar Glass Override */
         .sidebar {
-            background: linear-gradient(135deg, #0F1A3C 0%, #1a2847 100%);
-            min-height: 100vh;
-            color: white;
+            background: rgba(11, 18, 33, 0.95) !important; 
+            backdrop-filter: blur(20px);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            background: var(--bg-card); /* Slightly lighter for contrast or same as card? Layout used bg-dark usually. */
+            background: #0B1221;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            width: var(--sidebar-width);
+            height: 100vh;
             position: fixed;
-            width: 250px;
-            padding: 20px 0;
-            transition: transform 0.3s ease;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
+            padding: 30px 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
+        
         .sidebar .logo {
-            text-align: center;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             color: white;
+            padding-left: 10px;
         }
-        .sidebar .logo .gold { color: #E4B400; }
+        .sidebar .logo i { color: var(--accent-gold); font-size: 24px; }
+        
+        .sidebar-menu { list-style: none; padding: 0; }
+        .sidebar-menu li { margin-bottom: 8px; }
+        
         .sidebar a {
-            color: white;
+            color: var(--text-muted);
             text-decoration: none;
-            padding: 12px 20px;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        .sidebar a:hover {
-            background: #E4B400;
-            color: #0F1A3C;
-            padding-left: 30px;
-        }
-        .sidebar a.active {
-            background: #E4B400;
-            color: #0F1A3C;
-        }
-        
-        /* Main Content */
-        .main-content {
-            margin-left: 250px;
-            padding: 30px;
-            min-height: 100vh;
-            width: calc(100% - 250px);
-            transition: margin-left 0.3s ease, width 0.3s ease;
-        }
-        
-        /* Header */
-        .header {
-            background: white;
-            padding: 20px 30px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            font-weight: 400;
+            font-size: 15px;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            color: white;
+            background: rgba(255,255,255,0.08); /* Subtle highlight */
+            font-weight: 500;
+        }
+        .sidebar a i { font-size: 18px; }
+        
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px 40px;
+            min-height: 100vh;
+        }
+        
+        /* HEADER */
+        .dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 40px;
+        }
+        .search-bar {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 10px 20px;
+            color: white;
+            width: 300px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .search-bar input { background: transparent; border: none; color: white; width: 100%; outline: none; }
+        .search-bar i { color: var(--text-muted); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .icon-btn { 
+            background: var(--bg-card); 
+            border: 1px solid rgba(255,255,255,0.05); 
+            color: white; 
+            width: 40px; height: 40px; 
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; 
+            transition: 0.2s;
+        }
+        .icon-btn:hover { background: rgba(255,255,255,0.1); }
+        
+        .profile-pic {
+            width: 40px; height: 40px; border-radius: 50%; background: #334155;
+            display: flex; align-items: center; justify-content: center; font-weight: 600;
+            color: white;
         }
         
-        /* Mobile */
-        .hamburger {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            background: #0F1A3C;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        .hamburger span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: #E4B400;
-            margin: 5px 0;
-            transition: 0.3s;
-        }
-        .hamburger.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
-        
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+        /* CARDS */
+        .stats-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 25px;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            border: 1px solid rgba(255,255,255,0.03);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+        .stats-card h3 { font-size: 14px; color: white; opacity: 0.9; font-weight: 500; margin-bottom: 10px; letter-spacing: 0.5px; }
+        .stats-card .value { font-size: 28px; font-weight: 700; color: white; margin-bottom: 5px; }
+        .stats-card .subtext { font-size: 13px; color: var(--text-muted); }
+        
+        /* TABLES */
+        .table-dark-custom {
+            --bs-table-bg: transparent;
+            --bs-table-color: var(--text-muted);
+            border-color: rgba(255,255,255,0.05);
+        }
+        .table-dark-custom th {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .table-dark-custom td {
+            padding: 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .table-dark-custom tr:last-child td { border-bottom: none; }
+
+        /* RESPONSIVE */
+        .hamburger { display: none; color: white; background: none; border: none; font-size: 24px; }
         
         @media (max-width: 768px) {
-            .hamburger { display: block; }
-            .sidebar { transform: translateX(-100%); }
+            .sidebar { transform: translateX(-100%); z-index: 1050; }
             .sidebar.active { transform: translateX(0); }
-            .sidebar-overlay.active { display: block; }
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 80px 15px 15px 15px;
+            .main-content { margin-left: 0; padding: 20px; }
+            .hamburger { display: block; }
+            
+            .sidebar-backdrop {
+                display: none;
+                position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                background: rgba(0,0,0,0.5);
+                z-index: 1040;
+                backdrop-filter: blur(2px);
             }
-        }
-
-        /* Utility */
-        .btn-gold { 
-            background: linear-gradient(135deg, #E4B400 0%, #f5c842 100%);
-            color: #0F1A3C;
-            border: none;
+            .sidebar-backdrop.active { display: block; }
         }
     </style>
 </head>
 <body>
-    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Backdrop -->
+    <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <div class="logo">360<span class="gold">Win</span>Estate</div>
-        <hr style="border-color: rgba(255,255,255,0.2);">
+        <div class="logo">
+            <i class="bi bi-shield-lock-fill text-danger me-2"></i>
+            Admin<span class="text-white">Panel</span>
+        </div>
         
-        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-            <i class="bi bi-speedometer2 me-2"></i> Dashboard
-        </a>
-        
-        @if(auth()->user()->admin->isSuperAdmin())
-        <a href="{{ route('admin.admins') }}" class="{{ request()->routeIs('admin.admins*') ? 'active' : '' }}">
-            <i class="bi bi-people me-2"></i> Manage Admins
-        </a>
-        @endif
+        <ul class="sidebar-menu">
+            <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <i class="bi bi-grid-fill"></i> Dashboard
+            </a></li>
+            
+            <li class="small text-muted text-uppercase fw-bold px-3 mt-4 mb-2" style="font-size: 11px; letter-spacing: 1px;">Management</li>
 
-        <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users*') ? 'active' : '' }}">
-            <i class="bi bi-person me-2"></i> Users
-        </a>
-        
-        {{-- Show KYC link if route exists and user has permission --}}
-        @if(Route::has('admin.kyc') && (auth()->user()->admin->isSuperAdmin() || auth()->user()->admin->isComplianceAdmin()))
-        <a href="{{ route('admin.kyc') }}" class="{{ request()->routeIs('admin.kyc*') ? 'active' : '' }}">
-            <i class="bi bi-file-check me-2"></i> KYC Management
-        </a>
-        @endif
-        
-        @if(Route::has('admin.analytics'))
-        <a href="{{ route('admin.analytics') }}" class="{{ request()->routeIs('admin.analytics*') ? 'active' : '' }}">
-            <i class="bi bi-graph-up me-2"></i> Analytics
-        </a>
-        @endif
-        
-        <hr style="border-color: rgba(255,255,255,0.2);">
-        <form action="{{ route('admin.logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-link text-white text-decoration-none w-100 text-start" style="padding: 12px 20px;">
-                <i class="bi bi-box-arrow-right me-2"></i> Logout
-            </button>
-        </form>
+            @if(auth()->user()->admin->isSuperAdmin())
+            <li><a href="{{ route('admin.admins') }}" class="{{ request()->routeIs('admin.admins*') ? 'active' : '' }}">
+                <i class="bi bi-people-fill"></i> Manage Admins
+            </a></li>
+            @endif
+
+            <li><a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users*') ? 'active' : '' }}">
+                <i class="bi bi-person-badge-fill"></i> Users
+            </a></li>
+
+            <li><a href="{{ route('admin.properties.index') }}" class="{{ request()->routeIs('admin.properties*') ? 'active' : '' }}">
+                <i class="bi bi-building-fill"></i> Properties
+            </a></li>
+
+            <li><a href="{{ route('admin.kyc') }}" class="{{ request()->routeIs('admin.kyc*') ? 'active' : '' }}">
+                <i class="bi bi-file-earmark-person-fill"></i> KYC Requests
+            </a></li>
+
+            <li class="small text-muted text-uppercase fw-bold px-3 mt-4 mb-2" style="font-size: 11px; letter-spacing: 1px;">System</li>
+            
+            <li><a href="{{ route('admin.analytics') }}" class="{{ request()->routeIs('admin.analytics*') ? 'active' : '' }}">
+                <i class="bi bi-graph-up"></i> Analytics
+            </a></li>
+        </ul>
+
+        <div style="position: absolute; bottom: 30px; left: 20px; width: calc(100% - 40px);">
+             <form action="{{ route('admin.logout') }}" method="POST">
+                @csrf
+                <button type="submit" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; width: 100%; border-radius: 10px; padding: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+            </form>
+        </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Top Header Bar -->
-        <div class="header d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="mb-0 fw-bold">@yield('title', 'Dashboard')</h5>
-            </div>
-            <div class="d-flex align-items-center">
-                <div class="me-3 text-end d-none d-md-block">
-                    <div class="fw-bold">{{ auth()->user()->name }}</div>
-                    <small class="text-muted">{{ auth()->user()->email }}</small>
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div class="d-flex align-items-center gap-3">
+                <button class="hamburger" onclick="toggleSidebar()">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div>
+                   <h4 class="fw-bold mb-0 text-white">@yield('title', 'Admin Dashboard')</h4> 
+                   <small class="text-muted">Welcome back, Admin</small>
                 </div>
-                <div class="avatar-circle bg-warning text-dark d-flex align-items-center justify-content-center rounded-circle fw-bold" style="width: 40px; height: 40px;">
-                    {{ substr(auth()->user()->name, 0, 1) }}
+            </div>
+            
+            <div class="d-flex align-items-center gap-4">
+                <div class="search-bar d-none d-md-flex">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Search users, properties...">
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn position-relative">
+                        <i class="bi bi-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 8px; width: 6px; height: 6px; padding: 0;"></span>
+                    </button>
+                    <div class="profile-pic">
+                        {{ substr(auth()->user()->name, 0, 1) }}
+                    </div>
                 </div>
             </div>
         </div>
 
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show">
-                <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show">
-                <i class="bi bi-exclamation-circle-fill me-2"></i>{{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="alert alert-success d-flex align-items-center mb-4" role="alert" style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10B981; color: #10B981;">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                {{ session('success') }}
             </div>
         @endif
 
@@ -213,17 +307,12 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const hamburger = document.getElementById('hamburger');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
         function toggleSidebar() {
-            hamburger.classList.toggle('active');
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
+            document.getElementById('sidebar').classList.toggle('active');
+            document.querySelector('.sidebar-backdrop').classList.toggle('active');
         }
-        hamburger.addEventListener('click', toggleSidebar);
-        overlay.addEventListener('click', toggleSidebar);
     </script>
 </body>
 </html>

@@ -36,7 +36,13 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="text-muted small">Submitted On</label>
-                            <p class="mb-0 fw-semibold">{{ $kycSubmission->submitted_at->format('M d, Y h:i A') }}</p>
+                            <p class="mb-0 fw-semibold">
+                                @if($kycSubmission->submitted_at)
+                                    {{ $kycSubmission->submitted_at->format('M d, Y h:i A') }}
+                                @else
+                                    <span class="text-muted">N/A</span>
+                                @endif
+                            </p>
                         </div>
                         @if($kycSubmission->reviewed_at)
                             <div class="col-md-6 mb-3">
@@ -221,7 +227,7 @@
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>
                                         <h6 class="mb-1">Submission #{{ $kyc->id }}</h6>
-                                        <small>{{ $kyc->submitted_at->format('M d, Y') }}</small>
+                                        <small>{{ $kyc->submitted_at ? $kyc->submitted_at->format('M d, Y') : 'N/A' }}</small>
                                     </div>
                                     <span class="badge bg-{{ $kyc->status === 'approved' ? 'success' : ($kyc->status === 'rejected' ? 'danger' : 'warning') }}">
                                         {{ ucfirst($kyc->status) }}
